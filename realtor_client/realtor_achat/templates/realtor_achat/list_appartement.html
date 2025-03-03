@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion Odoo</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+    <div class="container mt-4">
+        <h1 class="text-center mb-4">Liste des appartements en vente</h1>
+        
+        <div class="row">
+            {% for apt in apartments %}
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm">
+                        <img src="data:image/png;base64,{{ apt.photo }}" class="card-img-top" alt="Image de l'appartement">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ apt.name }}</h5>
+                            <p class="card-text"><strong>Prix :</strong> {{ apt.expected_price }} €</p>
+                            <p class="card-text"><strong>Meilleure offre :</strong> {{ apt.best_offer }} €</p>
+                            <p class="card-text"><strong>Stock :</strong> {{ apt.stock_quantity }} disponible(s)</p>
+
+                            <form method="POST" action="propose_offer">
+                                {% csrf_token %}
+                                <input type="hidden" name="apartment_id" value="{{ apt.id }}">
+
+                                <div class="mb-3">
+                                    <label for="offer_price" class="form-label">Prix proposé :</label>
+                                    <input type="number" step="1" name="offer_price" id="offer_price" class="form-control" required>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Proposer</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

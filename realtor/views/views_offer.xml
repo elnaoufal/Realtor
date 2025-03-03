@@ -1,0 +1,33 @@
+<odoo>
+   <!-- Vue Liste -->
+   <record id="view_tree_offer" model="ir.ui.view">
+      <field name="name">Offer Tree</field>
+      <field name="model">realtor.offer</field>
+      <field name="arch" type="xml">
+         <tree string="List of Offers">
+            <field name="apartment_id"/>
+            <field name="buyer_id"/>
+            <field name="offer_price"/>
+         </tree>
+      </field>
+   </record>
+
+   <!-- Vue formulaire -->
+   <record id="view_form_offer" model="ir.ui.view">
+      <field name="name">Offer Form</field>
+      <field name="model">realtor.offer</field>
+      <field name="arch" type="xml">
+         <form string="Offer">
+            <sheet>
+               <group>
+                    <field name="apartment_id"/>
+                    <field name="buyer_id"/>
+                    <field name="offer_price"/>
+               </group>
+            </sheet>
+         </form>
+      </field>
+   </record>
+
+ </odoo>
+ 

@@ -1,0 +1,217 @@
+<odoo>
+    <data>
+        <record model="product.product" id="mon_appart_1_variant">
+            <field name="name">Luxury Product </field>
+            <field name="default_code">luxury-prod-12345</field>
+            <field name="type">product</field>
+            <field name="list_price">250000</field>
+            <field name="standard_price">200000</field>
+        </record>
+        <record model="product.product" id="mon_appart_2_variant">
+            <field name="name">Bubble Product </field>
+            <field name="default_code">bubble-prod-12345</field>
+            <field name="type">product</field>
+            <field name="list_price">120000</field>
+            <field name="standard_price">30000</field>
+        </record>
+        <record model="product.product" id="mon_appart_3_variant">
+            <field name="name">Coffie Product </field>
+            <field name="default_code">coffie-prod-12345</field>
+            <field name="type">product</field>
+            <field name="list_price">180000</field>
+            <!-- <field name="standard_price">30000</field> -->
+        </record>
+    
+        <!--Acheteur et fournisseur   -->
+        <record model="res.partner" id="appartment_partner_01">
+            <field name="name">Patrick Star</field>
+            <field name='is_a_buyer'>True</field>
+        </record>
+
+        <record model="res.partner" id="appartment_partner_02">
+            <field name="name">Bob l'éponge</field>
+            <field name='is_a_buyer'>True</field>
+        </record>
+
+        <!-- Création d'un partenaire fournisseur ESI Immobilier -->
+        <record model="res.partner" id="esi_immobilier_partner">
+            <field name="name">ESI Immobilier</field>
+        </record>
+
+        <!-- Création d'un appartement -->
+        <record model="realtor.apartment" id="apartment_01">
+            <field name="name">Luxury Apartment</field>
+            <field name="description">A beautiful apartment with a terrace and modern amenities.</field>
+            <field name="photo" type="base64" file="realtor/static/src/img/luxeAppart.png"></field>
+            <!-- <field name="creation_date">2024-11-01 10:00:00</field> -->
+            <field name="product_id" ref="mon_appart_1_variant"></field> <!-- on lie l'appart au produit via le ref  -->
+            <field name="availability_date">2025-12-18 10:00:00</field>
+            <field name="expected_price">250000</field>
+            <field name="surface">120</field>
+            <field name="total_surface">20</field>
+            <field name="stock_quantity">1</field>
+        </record>
+
+        <record model="realtor.apartment" id="apartment_02">
+            <field name="name">Bubble Apartment</field>
+            <field name="description">A beautiful apartment with a terrace and modern amenities.</field>  
+            <field name="photo" type="base64" file="realtor/static/src/img/coffee.jpg"></field>      
+            <field name="product_id" ref="mon_appart_1_variant"></field> <!-- on lie l'appart au produit via le ref  -->
+            <field name="availability_date">2025-12-18 10:00:00</field>
+            <field name="expected_price">120000</field>
+            <field name="surface">120</field>
+            <field name="total_surface">20</field>
+            <field name="stock_quantity">1</field>
+        </record>
+
+        <record model="realtor.apartment" id="apartment_03">
+            <field name="name">Coffie Apartment</field>
+            <field name="description">A beautiful apartment with a terrace and modern amenities.</field> 
+            <field name="photo" type="base64" file="realtor/static/src/img/bubble.jpg"></field>       
+            <field name="product_id" ref="mon_appart_1_variant"></field> <!-- on lie l'appart au produit via le ref  -->
+            <field name="availability_date">2025-12-18 10:00:00</field>
+            <field name="expected_price">180000</field>
+            <field name="surface">180</field>
+            <field name="total_surface">20</field>
+            <field name="stock_quantity">1</field>
+        </record>
+        
+
+        <!-- Création d'une offre pour cet appartement -->
+        <record model="realtor.offer" id="offer_01">
+            <field name="offer_price">24000000</field>
+            <field name="apartment_id" ref="apartment_01" />
+            <field name="buyer_id" ref="appartment_partner_01" />
+        </record>
+
+        <record model="realtor.offer" id="offer_02">
+            <field name="offer_price">10000000</field>
+            <field name="apartment_id" ref="apartment_02" />
+            <field name="buyer_id" ref="appartment_partner_02" />
+        </record>
+
+        <record model="realtor.offer" id="offer_03">
+            <field name="offer_price">10000000</field>
+            <field name="apartment_id" ref="apartment_03" />
+            <field name="buyer_id" ref="appartment_partner_02" />
+        </record>
+
+       
+        <!-- RECEVOIR DANS L'INVENTAIRE (on a stock=0) -->
+        <!-- Réception de produits dans l'inventaire -->
+        <record id="outgoing_shipment_main_warehouse1" model="stock.picking">
+            <field name="picking_type_id" ref="stock.picking_type_in"/>
+            <field name="user_id"></field>
+            <field name="partner_id" ref="esi_immobilier_partner" />
+            <field name="scheduled_date">2024-12-31 14:00:00</field>
+             <field name="location_id" ref="stock.stock_location_customers"/>
+            <field name="location_dest_id" ref="stock.stock_location_stock"/>
+            <field name="state">draft</field>
+            <field name="move_ids" model="stock.move.line" eval="[(0, 0, {
+                'name': 'Luxury Product',
+                'product_id': ref('mon_appart_1_variant'),
+                'product_uom': ref('uom.product_uom_unit'),
+                'product_uom_qty': 110.0,
+                'location_id': ref('stock.stock_location_customers'),
+                'location_dest_id': ref('stock.stock_location_stock'),
+            })]"/>
+        </record>
+
+        <record id="outgoing_shipment_main_warehouse2" model="stock.picking">
+            <field name="picking_type_id" ref="stock.picking_type_in"/>
+            <field name="user_id"></field>
+            <field name="partner_id" ref="esi_immobilier_partner" />
+            <field name="scheduled_date">2024-12-30 14:00:00</field>
+             <field name="location_id" ref="stock.stock_location_customers"/>
+            <field name="location_dest_id" ref="stock.stock_location_stock"/>
+            <field name="state">draft</field>
+            <field name="move_ids" model="stock.move.line" eval="[(0, 0, {
+                'name': 'Bubble Product',
+                'product_id': ref('mon_appart_2_variant'),
+                'product_uom': ref('uom.product_uom_unit'),
+                'product_uom_qty': 110.0,
+                'location_id': ref('stock.stock_location_customers'),
+                'location_dest_id': ref('stock.stock_location_stock'),
+            })]"/>
+        </record>
+
+        <record id="outgoing_shipment_main_warehouse3" model="stock.picking">
+            <field name="picking_type_id" ref="stock.picking_type_in"/>
+            <field name="user_id"></field>
+            <field name="partner_id" ref="esi_immobilier_partner" />
+            <field name="scheduled_date">2024-12-30 14:00:00</field>
+             <field name="location_id" ref="stock.stock_location_customers"/>
+            <field name="location_dest_id" ref="stock.stock_location_stock"/>
+            <field name="state">draft</field>
+            <field name="move_ids" model="stock.move.line" eval="[(0, 0, {
+                'name': 'Coffie Product',
+                'product_id': ref('mon_appart_3_variant'),
+                'product_uom': ref('uom.product_uom_unit'),
+                'product_uom_qty': 110.0,
+                'location_id': ref('stock.stock_location_customers'),
+                'location_dest_id': ref('stock.stock_location_stock'),
+            })]"/>
+        </record>
+
+<!-- bonne version iicii  -->
+        <!-- <record id="stock_picking_in_01" model="stock.picking">
+            <field name="picking_type_id" ref="stock.picking_type_in" />
+            <field name="location_id" ref="stock.stock_location_suppliers" />
+            <field name="location_dest_id" ref="stock.stock_location_stock" />
+            <field name="partner_id" ref="esi_immobilier_partner" />
+            <field name="scheduled_date">2024-12-15 10:00:00</field>
+            <field name="state">draft</field>
+        </record> -->
+
+        <!-- UNE FOIS QU'ON VALIDE ON RAJOUTE DANS LES STOCKS  -->
+        <!-- Mouvement des produits dans la réception -->
+        <!-- <record id="stock_move_product_01" model="stock.move">
+            <field name="name">Reception Luxury Product</field>
+            <field name="picking_id" ref="stock_picking_in_01" />
+            <field name="product_id" ref="mon_appart_1_variant" />
+            <field name="product_uom_qty">1</field>   
+            <field name="product_uom" ref="uom.product_uom_unit" />
+            <field name="location_id" ref="stock.stock_location_suppliers" />
+            <field name="location_dest_id" ref="stock.stock_location_stock" />
+            <field name="state">draft</field>
+        </record>  -->
+
+<!-- iciii -->
+<!-- 
+        <record id="stock_move_product_02" model="stock.move">
+            <field name="name">Reception Hess Product</field>
+            <field name="picking_id" ref="stock_picking_in_01" />
+            <field name="product_id" ref="mon_appart_2_variant" />
+            <field name="product_uom_qty">1</field>
+            <field name="product_uom" ref="uom.product_uom_unit" />
+            <field name="location_id" ref="stock.stock_location_suppliers" />
+            <field name="location_dest_id" ref="stock.stock_location_stock" />
+            <field name="state">draft</field>
+        </record> -->
+    <!-- met la reception -->
+    <!-- <function model="stock.picking" name="action_confirm">
+            <value model="stock.picking" eval="[ref('outgoing_shipment_main_warehouse1')]"/>
+    </function> -->
+<!-- verifie si les produit sont dispo -->
+    <!-- <function model="stock.picking" name="action_assign">
+            <value model="stock.picking" eval="[
+                ref('outgoing_shipment_main_warehouse1')
+            ]"/>
+    </function> -->
+<!-- met a jour la qqt des ligne en mouvement (fait un peut,pareil que action_assign)-->
+    <!-- <function model="stock.move.line" name="write">
+            <value model="stock.move.line" search="[('picking_id', '=', ref('outgoing_shipment_main_warehouse1'))]"/>
+            <value eval="{'quantity': 110}"/>
+    </function> -->
+<!-- ici est sancer passer a donne -->
+    <function model="stock.picking" name="button_validate">
+        <value eval="ref('outgoing_shipment_main_warehouse1')" />
+    </function>
+    <function model="stock.picking" name="button_validate">
+        <value eval="ref('outgoing_shipment_main_warehouse2')" />
+    </function>
+    <function model="stock.picking" name="button_validate">
+        <value eval="ref('outgoing_shipment_main_warehouse3')" />
+    </function>
+    </data>
+</odoo>

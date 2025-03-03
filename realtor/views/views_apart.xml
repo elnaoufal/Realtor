@@ -1,0 +1,64 @@
+<odoo>
+   <!-- Vue Liste -->
+   <record id="view_tree_apartment" model="ir.ui.view">
+      <field name="name">Appartment Tree</field>
+      <field name="model">realtor.apartment</field>
+      <field name="arch" type="xml">
+         <tree string="List of Apartments">
+            <field name="name"/>
+            <field name="description"/>
+            <field name="photo"/>
+            <field name="creation_date"/>
+            <field name="availability_date"/>
+            <field name="expected_price"/>
+            <field name="surface"/>
+            <field name="terrace_surface"/>
+            <field name="total_surface"/>
+            <field name="best_offer"/>
+            <field name="buyer_id"/>
+            <field name="stock_quantity"/>
+            <field name="location_id"/>
+            <field name="product_id"/>
+         </tree>
+      </field>
+   </record>
+
+   <!-- Vue formulaire -->
+   <record id="view_form_apartment" model="ir.ui.view">
+      <field name="name">Apartment Form</field>
+      <field name="model">realtor.apartment</field>
+      <field name="arch" type="xml">
+         <form string="Apartment">
+            <sheet>
+               <group>
+                  <field name="name"/>
+                  <field name="description"/>
+                  <field name="photo" widget="image"/>
+                  <field name="product_id"/>
+               </group>
+               <group>
+                  <field name="creation_date" readonly="1"/>
+                  <field name="availability_date"/>
+               </group>
+               <group>
+                  <field name="expected_price"/>
+                  <field name="surface"/>
+                  <field name="terrace_surface"/>
+                  <field name="total_surface" readonly="1"/>
+               </group>
+               
+               <group string="Offers">
+                  <field name="best_offer" />
+                  <field name="buyer_id" />
+               </group>
+               <group string="Stock">
+                  <field name="stock_quantity"/>
+                  <field name="location_id"/>
+               </group>
+            </sheet>
+         </form>
+      </field>
+   </record>
+
+ </odoo>
+ 

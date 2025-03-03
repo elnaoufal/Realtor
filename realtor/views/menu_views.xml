@@ -1,0 +1,33 @@
+<odoo>
+   <!-- Action pour Appartement -->
+   <record id="action_apart" model="ir.actions.act_window">
+      <field name="name">Appartment</field>
+      <field name="res_model">realtor.apartment</field>
+      <field name="view_mode">tree,form</field>
+      <field name="help" type="html">
+         <p>Create a new apartment.</p>
+      </field>
+   </record>
+
+   <!-- Action pour Offre -->
+   <record id="action_offer" model="ir.actions.act_window">
+      <field name="name">Offer</field>
+      <field name="res_model">realtor.offer</field>
+      <field name="view_mode">tree,form</field>
+      <field name="help" type="html">
+         <p>Create a new offer.</p>
+      </field>
+   </record>
+ 
+   <!-- Menu principal -->
+   <menuitem id="menu_apart" name="Apartment" sequence="0"/>
+ 
+   <!-- Sous-menu Appartement -->
+   <menuitem id="menu_apart_content" parent="menu_apart" name="Apartment" action="action_apart"/>
+   <!-- Sous-menu offre -->
+   <menuitem id="menu_offer_content" parent="menu_apart" name="Offer" action="action_offer"/>
+
+
+
+
+</odoo>
