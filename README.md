@@ -23,7 +23,7 @@ This project is a real estate management system developed with Odoo and Django. 
 
 ### 1. Clone the Repository  
 ```bash
-git clone https://github.com/your-username/realtor.git
+git clone https://github.com/elnaoufal/realtor.git
 cd realtor
 ```
 ### 2. Intsall Odoo 
